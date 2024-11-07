@@ -253,6 +253,23 @@ function deleteSession(id) {
       return "eroare!";
     });
 }
+//nu stiu cum functioneaza dar merge
+async function premiere(gameId) {
+  try {
+      const game = await gameDb.findByPk(gameId); // Găsește instanța specifică după ID
+
+      if (game) {
+          // Modifică câmpul `hasAward` și salvează instanța
+          game.hasAward = true;
+          await game.save(); // Salvează modificările în baza de date
+          console.log(`Jocul cu id-ul ${gameId} a fost actualizat pentru a avea premiul.`);
+      } else {
+          console.log(`Nu s-a găsit niciun joc cu id-ul ${gameId}.`);
+      }
+  } catch (error) {
+      console.error('Eroare la actualizarea câmpului hasAward:', error);
+  }
+}
 module.exports = {
   resetDatabase,
   getAllGames,
@@ -262,4 +279,5 @@ module.exports = {
   getSessionById,
   insertSession,
   deleteSession,
+  premiere,
 };

@@ -177,18 +177,19 @@ app.get("/games/descrescator", async(req,res)=>{
   console.log(allGames);
   res.send(allGames);
 });
-app.get("/premiere", async(req,res)=>{
+//modifica in baza de date campul hasAward daca jocul este premiat
+app.patch("/premiere", async(req,res)=>{
   let allGames = await utils.getAllGames();
   allGames.sort((a,b) => parseFloat(b.rating) - parseFloat(a.rating));
 
-  let toatePremiata = new Array();
-  toatePremiata.push(allGames[0]);
-  allGames.forEach(afisare)
+  await utils.premiere(allGames[0].id);
+  let toatePremiate = new Array();
+  allGames.forEach(functie);
 
-  function afisare(game){
-    if(game.hasAward){
-      toatePremiata.push(game);
-    }
+  function functie(joc){
+    if(joc.hasAward == true)
+      toatePremiate.push(joc);
   }
-  res.send(toatePremiata);
+  res.send(toatePremiate);
+
 })
